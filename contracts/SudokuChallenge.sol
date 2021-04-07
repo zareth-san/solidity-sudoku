@@ -10,7 +10,7 @@ contract SudokuChallenge {
     // create a contract with an initial Sudoku challenge, We represent a
     // challenge as an array of uint8's where each row of the challenge is of
     // length size. Each element of the array represents the possible cell values
-    // 1 - 9. A cell value of 0 is used to represent a cell which does not have
+    // 1 - 3. A cell value of 0 is used to represent a cell which does not have
     // an assigned value yet. Note, we make no restrictions on the dimensions of
     // the challenge.
     //
@@ -22,7 +22,7 @@ contract SudokuChallenge {
     // | 0  0  0  |
     // ------------
     //
-    // challenge = [0, 1, 0, 3, 0, 4, 0, 0, 6]
+    // challenge = [0, 0, 3, 2, 0, 0, 0, 0, 0]
     constructor(uint8[] memory _challenge, uint8 _size) public {
       challenge = _challenge;
       size = _size;
