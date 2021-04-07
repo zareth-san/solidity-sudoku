@@ -17,9 +17,9 @@ contract SudokuChallenge {
     // Example for a 3x3 challenge:
     //
     // ------------
-    // | 0  1  0  |
-    // | 3  0  4  |
-    // | 0  0  6  |
+    // | 0  0  3  |
+    // | 2  0  0  |
+    // | 0  0  0  |
     // ------------
     //
     // challenge = [0, 1, 0, 3, 0, 4, 0, 0, 6]
