@@ -50,7 +50,7 @@ contract SudokuExchange {
         require(address(rewardChallenges[address(challenge)].token) != address(0x0), "Sudoku challenge does not exist at this address");
 
         // now try to solve it
-        bool isCorrect = challenge.solve(solution);
+        bool isCorrect = challenge.validate(solution);
 
         require(isCorrect, "the solution is not correct");
 

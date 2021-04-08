@@ -29,7 +29,7 @@ contract SudokuChallenge {
     }
 
 
-    function solve( uint8[] calldata potentialSolution ) public pure returns (bool isCorrect) {
+    function validate( uint8[] calldata potentialSolution ) public pure returns (bool isCorrect) {
       // TODO implement me!
     }
 }
