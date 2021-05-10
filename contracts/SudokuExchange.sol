@@ -45,7 +45,7 @@ contract SudokuExchange {
     }
 
     // claim a previously created reward by solving the Sudoku challenge
-    function claimReward(SudokuChallenge challenge, uint8[] calldata solution) public {
+    function claimReward(SudokuChallenge challenge, uint8[81] calldata solution) public {
         // does this challenge even have a reward for it?
         require(address(rewardChallenges[address(challenge)].token) != address(0x0), "Sudoku challenge does not exist at this address");
 
