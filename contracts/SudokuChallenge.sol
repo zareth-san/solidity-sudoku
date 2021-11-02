@@ -48,7 +48,7 @@ contract SudokuChallenge {
     }
 
 
-    function validate( uint8[81] calldata potentialSolution ) public pure returns (bool isCorrect) {
+    function validate( uint8[81] calldata potentialSolution ) public view returns (bool isCorrect) {
       // TODO implement me!
     }
 }
