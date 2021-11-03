@@ -48,7 +48,47 @@ contract SudokuChallenge {
     }
 
 
-    function validate( uint8[81] calldata potentialSolution ) public view returns (bool isCorrect) {
-      // TODO implement me!
+    function validate(uint8[81] calldata potentialSolution ) public view returns (bool isCorrect) {
+      isCorrect = false;
+      uint16[] memory rows = new uint16[](9);
+      uint16[] memory cols = new uint16[](9);
+      uint8[][] memory boxes = new uint8[][](9);
+
+      for (uint i = 0; i < 81; i ++) {
+        uint r = i / 9;
+        uint c = i % 9;
+
+        uint8 x = challenge[i]; // takes 3 slots, and cheaper than dumping on memory
+        uint8 y = potentialSolution[i]; // read-only
+
+        if (x > 0) {
+          // should not modify non-zero cell
+          if (y != x) return isCorrect;
+        }
+
+        // validate a cell
+        if (y < 1 || y > 9) return isCorrect;
+
+        y -= 1; // adjust for array indexing
+        
+        // should be unique in the row
+        if (rows[y] & (1 << r) > 0) return isCorrect;
+        rows[y] = uint16(rows[y] | (1 << r));
+
+        // should be unique in the column
+        if (cols[y] & (1 << c) > 0) return isCorrect;
+        cols[y] = uint16(cols[y] | (1 << c));
+
+        // should be unique in the box
+        r /= 3; // matrix scale
+        c /= 3; // matrix scale
+        if (boxes[y].length == 0) {
+          // initialize the array if it's first time to access
+          boxes[y] = new uint8[](3);
+        }
+        if (boxes[y][r] & (1 << c) > 0) return isCorrect;
+        boxes[y][r] = uint8(boxes[y][r] | (1 << c));
+      }
+      isCorrect = true;
     }
 }
