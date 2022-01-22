@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity ^0.6.12;
+pragma solidity ^0.7.6;
 
-import "hardhat/console.sol";
+//import "hardhat/console.sol";
 
 contract SudokuChallenge {
     uint8[81] public challenge;
@@ -31,7 +31,7 @@ contract SudokuChallenge {
     // ]
     //
     // Example correct input to the `SudokuChallenge.validate` call
-    // 
+    //
     //  [
     //    3, 1, 6, 5, 7, 8, 4, 9, 2,
     //    5, 2, 9, 1, 3, 4, 7, 6, 8,
@@ -44,11 +44,14 @@ contract SudokuChallenge {
     //    7, 4, 5, 2, 8, 6, 3, 1, 9
     //  ]
     constructor(uint8[81] memory _challenge) public {
-      challenge = _challenge;
+        challenge = _challenge;
     }
 
-
-    function validate( uint8[81] calldata potentialSolution ) public view returns (bool isCorrect) {
-      // TODO implement me!
+    function validate(uint8[81] calldata potentialSolution)
+        public
+        view
+        returns (bool isCorrect)
+    {
+        // TODO implement me!
     }
 }
