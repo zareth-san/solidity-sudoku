@@ -23,6 +23,23 @@ contract SudokuExchange {
         bool solved;
     }
 
+    struct RewardKey {
+        SudokuChallenge challenge;
+        uint256 rewardAmount;
+        IERC20 rewardToken;
+        address refundee;
+        bool solved;
+    }
+    
+    uint private unlocked = 1;
+
+    modifier lock() {
+        require(unlocked == 1, 'SudokuExchange: LOCKED');
+        unlocked = 0;
+        _;
+        unlocked = 1;
+    }
+
     // stores the Sudoku challenges and the data necessary to claim the reward
     // for a successful solution
     // key: SudokuChallenge
@@ -46,25 +63,44 @@ contract SudokuExchange {
     }
 
     // claim a previously created reward by solving the Sudoku challenge
-    function claimReward(SudokuChallenge challenge, uint8[81] calldata solution)
+    function claimReward(SudokuChallenge challenge, uint8[][] memory solution)
         public
+        lock
     {
         // does this challenge even have a reward for it?
-        require(
-            address(rewardChallenges[address(challenge)].token) != address(0x0),
-            "Sudoku challenge does not exist at this address"
-        );
+        // require(
+        //     address(rewardChallenges[address(challenge)].token) != address(0x0),
+        //     "Sudoku challenge does not exist at this address"
+        // );
 
         // now try to solve it
-        bool isCorrect = challenge.validate(solution);
+        challenge.validate(abi.encode(solution));
 
-        require(isCorrect, "the solution is not correct");
 
         // they solved the Sudoku challenge! pay them and then mark the challenge as solved
-        ChallengeReward memory challengeReward = rewardChallenges[
-            address(challenge)
-        ];
-        challengeReward.token.transfer(address(this), challengeReward.reward);
-        challengeReward.solved = true;
+        // ChallengeReward memory challengeReward = rewardChallenges[
+        //     address(challenge)
+        // ];
+        // challengeReward.token.transfer(address(this), challengeReward.reward);
+        // challengeReward.solved = true;
     }
 }
+
+
+
+/*
+
+Changelog:
+
+* Reentrancy guard modifier for reward claiming
+
+* Added refundee address to rewards
+
+* Changed #claimReward parameters to memory instead of calldata, encoded calldata in subsiquent call.
+
+
+* Changed challenge to nested memory array
+
+* Changed validation requirements to throw errors earlier to save
+
+*/

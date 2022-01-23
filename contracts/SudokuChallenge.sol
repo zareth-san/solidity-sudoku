@@ -1,10 +1,15 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.7.6;
+pragma experimental ABIEncoderV2;
+
 
 //import "hardhat/console.sol";
+import "./SafeMath.sol";
 
 contract SudokuChallenge {
-    uint8[81] public challenge;
+    uint8[9][9] public challenge;
+
+   
 
     // create a contract with an initial Sudoku challenge. Recall that Sudoku
     // is a boardgame with a square board made of 9 3x3 square subgrids. See
@@ -43,15 +48,44 @@ contract SudokuChallenge {
     //    6, 9, 2, 3, 5, 1, 8, 7, 4,
     //    7, 4, 5, 2, 8, 6, 3, 1, 9
     //  ]
-    constructor(uint8[81] memory _challenge) public {
+    constructor(uint8[9][9] memory _challenge) public {
         challenge = _challenge;
     }
 
-    function validate(uint8[81] calldata potentialSolution)
+    function validate(bytes calldata data)
         public
         view
-        returns (bool isCorrect)
+        returns (bool)
     {
         // TODO implement me!
+
+
+        (uint8[][] memory solution) = abi.decode(data, (uint8[][]));
+       
+        uint8 _rowSum;
+        uint8 _colombSum;
+       // uint8 _gridSum;
+        for (uint i; i < 9; i++){
+
+            // check row validity
+            for (uint v; v < 9; v++){
+              _rowSum += solution[i][v];
+            }
+            require (_rowSum == 45, "Invalid Row Solution");
+
+            // check column sum
+            for (uint v; v < 9; v++){
+              _colombSum += solution[v][i];
+            }
+            require (_rowSum == 45, "Invalid Colomn Solution");
+
+        }
+        // _checkGrid
+        return true;
+
+    }
+
+    function _checkGrid() internal returns (bool){
+      return true;
     }
 }
