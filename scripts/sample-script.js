@@ -14,12 +14,24 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const SudokuChallenge = await hre.ethers.getContractFactory("SudokuChallenge");
+  const challenge = await SudokuChallenge.deploy(
+    [
+      3, 0, 6, 5, 0, 8, 4, 0, 0,
+      5, 2, 0, 0, 0, 0, 0, 0, 0,
+      0, 8, 7, 0, 0, 0, 0, 3, 1,
+      0, 0, 3, 0, 1, 0, 0, 8, 0,
+      9, 0, 0, 8, 6, 3, 0, 0, 5,
+      0, 5, 0, 0, 9, 0, 6, 0, 0,
+      1, 3, 0, 0, 0, 0, 2, 5, 0,
+      0, 0, 0, 0, 0, 0, 0, 7, 4,
+      0, 0, 5, 2, 0, 6, 3, 0, 0
+    ]    
+  );
 
-  await greeter.deployed();
+  await challenge.deployed();
 
-  console.log("Greeter deployed to:", greeter.address);
+  console.log("SudokuChallenge deployed to:", challenge.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
