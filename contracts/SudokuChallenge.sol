@@ -48,10 +48,8 @@ contract SudokuChallenge {
     //    6, 9, 2, 3, 5, 1, 8, 7, 4,
     //    7, 4, 5, 2, 8, 6, 3, 1, 9
     //  ]
-    constructor(uint8[9][9] memory _challenge) public {
-        challenge = _challenge;
-    }
 
+    // todo pass in challenge in calldata
     function validate(bytes calldata data)
         public
         view
@@ -69,8 +67,19 @@ contract SudokuChallenge {
 
             // check row validity
             for (uint v; v < 9; v++){
-              _rowSum += solution[i][v];
+              // redundant 1-9 check?
+              require(solution[i][v] > 0 && solution[i][v] < 10, 'invalid input');
+              // check that non zero inputs are the same as the challange matrix
+              if (challenge[i][v] == 0 || solution[i][v] == challenge[i][v]) 
+                {
+                  // sum the solution matrix to 
+                  _rowSum += solution[i][v];
+                } else {
+                  // throw if non zero solution inputs do not match the challenge matrix
+                  revert("Solution Does Not Match Challenge");
+                }
             }
+            //implicitly throws on any zero inputs or non 
             require (_rowSum == 45, "Invalid Row Solution");
 
             // check column sum
